@@ -1,0 +1,20 @@
+(function executeRule(current, previous /*null when async*/ ) {
+	
+	/*
+	Written by : Hardit Singh
+	Date : 02/21/2022
+	Description :  This code Validates an Indian mobile number in your Javascript and returns an error if the mobile number is invalid. The mobile number should start from +91 and should have 10 digits ahead. 
+	
+	Please write this code in a business rule of your choice Table.
+	
+	When to Run should be set to Before Insert and Before Update to prevent any update in database.
+	*/
+
+    var re = /^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$/;
+    if (!re.test(current.u_india_phone_number.toString())) { //Backend name of Mobile number field
+        gs.addErrorMessage( 'Please enter a valid Mobile number');
+		current.u_india_phone_number = previous.u_india_phone_number; //Setting the Mobile number to previous value if invalid
+        current.setAbortAction(true); //Prevent the database update
+    }
+	
+})(current, previous);
